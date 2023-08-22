@@ -1,0 +1,30 @@
+# Dependencias de Node.js
+node_modules/
+serviceAccountKey.json
+# Archivo de configuración de entorno
+.env
+
+# Archivos de respaldo
+*.bak
+*.backup
+
+# Archivos de registro
+logs/
+*.log
+
+# Archivos de compilación y construcción
+/dist
+/build
+/out
+
+# Archivos de configuración de IDEs
+.idea/
+.vscode/
+
+# Archivos de caché
+.cache
+.cached
+
+# Archivos sensibles (por seguridad, no los subas a tu repositorio)
+private.key
+credentials.json
