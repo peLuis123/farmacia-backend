@@ -74,7 +74,7 @@ router.get('/allpersons', async (req, res) => {
 
         snapshot.forEach(personSnapshot => {
             const personData = personSnapshot.val();
-            const personWithId = { id: personSnapshot.key, ...personData }; // Agregar el UUID como "id"
+            const personWithId = { id: personSnapshot.key, ...personData };
             allPersons.push(personWithId);
         });
 
