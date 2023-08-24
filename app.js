@@ -9,7 +9,9 @@ const personalRoutes = require('./routes/personalRouter');
 const servicesRoutes = require('./routes/servicesRouter');
 const categoriasRoutes = require('./routes/categoriasRouter');
 const comentariosRoutes = require('./routes/comentariosRouter');
-const  serviceAccount = require("./serviceAccountKey.json");
+const serviceAccount = require("./serviceAccountKey.json");
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swagger');
 app.use(express.json());
 app.use(cors({
     origin: 'http://localhost:8080'
@@ -18,6 +20,8 @@ app.use(cors({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://apidatos-default-rtdb.firebaseio.com"
   });
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.use('/v1', databaseRoutes);
 app.use('/v1/auth', authRoutes);
 app.use('/v1/personal', personalRoutes);

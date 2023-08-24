@@ -5,11 +5,47 @@ const router = express.Router();
 const admin = require('firebase-admin');
 const jwtMiddleware = require('../middlewares/jwtMiddleware');
 const jwtSecret = process.env.JWT_SECRET;
-const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const upload = require('../middlewares/fileUpload');
+
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description: Autenticación y registro de usuarios
+ *
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - role
+ *         - name
+ *         - email
+ *         - password
+ *       properties:
+ *         role:
+ *           type: string
+ *           description: Rol del usuario (admin, user)
+ *         name:
+ *           type: string
+ *           description: Nombre del usuario
+ *         email:
+ *           type: string
+ *           description: Correo electrónico del usuario
+ *         password:
+ *           type: string
+ *           description: Contraseña del usuario
+ *       example:
+ *         role: user
+ *         name: Usuario
+ *         email: pedrorc2018@correo.com
+ *         password: clave123
+ *
+ */
+
 
 
 router.post('/register', upload.single('avatar'), async (req, res) => {
