@@ -12,40 +12,69 @@ const upload = require('../middlewares/fileUpload');
 
 /**
  * @swagger
- * tags:
- *   name: Auth
- *   description: Autenticación y registro de usuarios
- *
- * components:
- *   schemas:
- *     User:
- *       type: object
- *       required:
- *         - role
- *         - name
- *         - email
- *         - password
- *       properties:
- *         role:
- *           type: string
- *           description: Rol del usuario (admin, user)
- *         name:
- *           type: string
- *           description: Nombre del usuario
- *         email:
- *           type: string
- *           description: Correo electrónico del usuario
- *         password:
- *           type: string
- *           description: Contraseña del usuario
- *       example:
- *         role: user
- *         name: Usuario
- *         email: pedrorc2018@correo.com
- *         password: clave123
- *
- */
+ * /v1/auth/register:
+ *   post:
+ *     summary: Registrar un nuevo usuario
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               avatar:
+ *                 type: string
+ *                 format: binary
+ *               role:
+ *                 type: string
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *                 format: password
+ *             required: [role, name, email, password]
+ *     responses:
+ *       '201':
+ *         description: Usuario registrado exitosamente
+ *       '400':
+ *         description: Todos los campos son obligatorios
+ *       '500':
+ *         description: Error al registrar usuario
 
+ * /v1/auth/login:
+ *   post:
+ *     summary: Iniciar sesión
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *             required: [email, password]
+ *     responses:
+ *       '200':
+ *         description: Inicio de sesión exitoso
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Inicio de sesión exitoso
+ *               token: token_recibido
+ *       '400':
+ *         description: Correo electrónico y contraseña son obligatorios
+ *       '401':
+ *         description: Credenciales inválidas
+ */
 
 
 router.post('/register', upload.single('avatar'), async (req, res) => {

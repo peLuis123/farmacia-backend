@@ -3,7 +3,97 @@ const admin = require('firebase-admin');
 const upload = require('../middlewares/fileUpload');
 const router = express.Router();
 
-
+/**
+ * @swagger
+ * /v1/personal/addperson:
+ *   post:
+ *     summary: Agregar información de personal
+ *     tags: [Personal]
+ *     consumes:
+ *       - multipart/form-data
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               area:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *             required: [name, area, description, image]
+ *     responses:
+ *       '201':
+ *         description: Personal añadido exitosamente
+ *       '400':
+ *         description: Solicitud incorrecta
+ *       '500':
+ *         description: Error interno del servidor
+ * /v1/personal/editperson/{id}:
+ *   put:
+ *     summary: Actualizar información de personal
+ *     tags: [Personal]
+ *     consumes:
+ *       - multipart/form-data
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               area:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *             required: [name, area, description, image]
+ *     responses:
+ *       '200':
+ *         description: Personal actualizado exitosamente
+ *       '500':
+ *         description: Error interno del servidor
+ * /v1/personal/allpersons:
+ *   get:
+ *     summary: Obtener información de todo el personal
+ *     tags: [Personal]
+ *     responses:
+ *       '200':
+ *         description: Información de todo el personal obtenida exitosamente
+ *       '500':
+ *         description: Error interno del servidor
+ * /v1/personal/deleteperson/{id}:
+ *   delete:
+ *     summary: Eliminar información de personal
+ *     tags: [Personal]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Registro eliminado exitosamente
+ *       '500':
+ *         description: Error interno del servidor
+ */
 router.post('/addperson', upload.single('image'), async (req, res) => {
   try {
     const { name, area, description } = req.body;
@@ -26,10 +116,10 @@ router.post('/addperson', upload.single('image'), async (req, res) => {
     const newPersonalRef = personalRef.push();
     newPersonalRef.set(newData)
       .then(() => {
-        res.status(201).json({ message: 'Datos y ruta de imagen guardados exitosamente' });
+        res.status(201).json({ message: 'personal añadido exitosamente' });
       })
       .catch(error => {
-        res.status(500).json({ message: 'Error al guardar los datos y ruta de imagen', error });
+        res.status(500).json({ message: 'Error al nuevo personal', error });
       });
   } catch (error) {
     console.error('Error al procesar la solicitud:', error);
@@ -55,10 +145,10 @@ router.put('/editperson/:id', upload.single('image'), async (req, res) => {
 
         personalRef.update(updatedData)
             .then(() => {
-                res.status(200).json({ message: 'Datos y ruta de imagen actualizados exitosamente' });
+                res.status(200).json({ message: 'se actualizo exitosamente' });
             })
             .catch(error => {
-                res.status(500).json({ message: 'Error al actualizar los datos y ruta de imagen', error });
+                res.status(500).json({ message: 'Error al actualizar los datos', error });
             });
     } catch (error) {
         console.error('Error al procesar la solicitud:', error);
